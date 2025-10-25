@@ -8,6 +8,10 @@ DB_PATH = Path(__file__).with_name("wagon.db")
 
 def initialize_database() -> None:
     """Ensure the wagon database has both items and ledger tables."""
+    if DB_PATH.exists():
+        print("Quartermaster: Existing wagon database found. No reinitialization needed.")
+        return
+
     with sqlite3.connect(DB_PATH) as connection:
         connection.execute(
             """
@@ -31,9 +35,7 @@ def initialize_database() -> None:
             """
         )
         connection.commit()
-    print("Quartermaster: Wagon database initialized.")
-    print("Quartermaster: Items table verified.")
-    print("Quartermaster: Ledger table verified.")
+    print("Quartermaster: Wagon database initialized from scratch.")
 
 
 if __name__ == "__main__":
