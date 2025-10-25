@@ -38,3 +38,10 @@ jobs:
           python quartermaster.py
           echo "::endgroup::"
         working-directory: quartermaster
+
+      - name: Review Ledger
+        run: |
+          echo "::group::Ledger review"
+          python ledger_review.py
+          echo "::endgroup::"
+        working-directory: quartermaster
