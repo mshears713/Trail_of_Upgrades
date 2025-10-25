@@ -49,8 +49,55 @@ jobs:
           echo "::endgroup::"
         working-directory: quartermaster
 
+      - name: Generate and display report
+        run: |
+          echo "::group::Quartermaster summary report"
+          python - <<'EOF'
+          import datetime
+          import sqlite3
+
+          conn = sqlite3.connect('wagon.db')
+          cur = conn.cursor()
+
+          report_lines = []
+          report_lines.append(f"# Quartermaster Report ({datetime.datetime.utcnow().isoformat()} UTC)")
+          report_lines.append("\n## Inventory\n")
+          report_lines.append("| Item | Quantity | Description |\n|------|-----------|-------------|")
+
+          for row in cur.execute("SELECT item, quantity, description FROM items"):
+              report_lines.append(f"| {row[0]} | {row[1]} | {row[2]} |")
+
+          report_lines.append("\n## Ledger (latest 20 entries)\n")
+          report_lines.append("| ID | Timestamp | Action | Item | Qty Change | Description |\n|----|------------|--------|------|-------------|-------------|")
+
+          for row in cur.execute(
+              "SELECT id, timestamp, action, item, quantity_change, description FROM ledger ORDER BY id DESC LIMIT 20"
+          ):
+              report_lines.append(
+                  f"| {row[0]} | {row[1]} | {row[2]} | {row[3]} | {row[4]} | {row[5]} |"
+              )
+
+          conn.close()
+
+          report_text = "\n".join(report_lines)
+          print(report_text)
+
+          with open('report.md', 'w') as report_file:
+              report_file.write(report_text)
+
+          print("\nQuartermaster: Report generation complete.")
+          EOF
+          echo "::endgroup::"
+        working-directory: quartermaster
+
       - name: Upload wagon database
         uses: actions/upload-artifact@v4
         with:
           name: wagon-database
           path: quartermaster/wagon.db
+
+      - name: Upload readable report
+        uses: actions/upload-artifact@v4
+        with:
+          name: readable-report
+          path: quartermaster/report.md
