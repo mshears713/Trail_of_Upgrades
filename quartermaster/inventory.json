@@ -1,6 +1,6 @@
 [
   {"item": "compass", "quantity": 1, "description": "Backup navigation instrument"},
-  {"item": "rope", "quantity": 5, "description": "Reinforced line for heavy loads"},
+  {"item": "rope", "quantity": -5, "description": "Reinforced line for heavy loads"},
   {"item": "lantern_oil", "quantity": 3, "description": "Fuel for lanterns"},
   {"item": "map_case", "quantity": 1, "description": "Waterproof case for expedition maps"},
   {"item": "dried_fruit", "quantity": 8, "description": "Light rations for long travel"}
