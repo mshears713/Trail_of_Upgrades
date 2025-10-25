@@ -1,0 +1,30 @@
+# Quartermaster Roll Call workflow
+# - Triggers: run on push to main and manual dispatch so the crew can call it anytime.
+# - Job: uses Ubuntu with Python 3.11 to match the ship's simple needs.
+# - Steps: checkout code, optionally install tools, then run the roll call script from its folder.
+name: Quartermaster Roll Call
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  run-quartermaster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies (if any)
+        run: |
+          echo "No dependencies required for PRD1."
+
+      - name: Run Quartermaster
+        run: python quartermaster.py
+        working-directory: quartermaster
