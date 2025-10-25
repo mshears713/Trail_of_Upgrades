@@ -1,7 +1,7 @@
 [
-  {"item": "compass", "quantity": 2, "description": "Navigation instruments"},
-  {"item": "flint", "quantity": 5, "description": "For fire starting"},
-  {"item": "rope", "quantity": 3, "description": "For securing cargo"},
-  {"item": "telescope", "quantity": 1, "description": "For scouting terrain"},
-  {"item": "preserved_meat", "quantity": 10, "description": "Food supply"}
+  {"item": "compass", "quantity": 1, "description": "Backup navigation instrument"},
+  {"item": "rope", "quantity": 5, "description": "Reinforced line for heavy loads"},
+  {"item": "lantern_oil", "quantity": 3, "description": "Fuel for lanterns"},
+  {"item": "map_case", "quantity": 1, "description": "Waterproof case for expedition maps"},
+  {"item": "dried_fruit", "quantity": 8, "description": "Light rations for long travel"}
 ]
