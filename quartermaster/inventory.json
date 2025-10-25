@@ -1,0 +1,7 @@
+[
+  {"item": "compass", "quantity": 2, "description": "Navigation instruments"},
+  {"item": "flint", "quantity": 5, "description": "For fire starting"},
+  {"item": "rope", "quantity": 3, "description": "For securing cargo"},
+  {"item": "telescope", "quantity": 1, "description": "For scouting terrain"},
+  {"item": "preserved_meat", "quantity": 10, "description": "Food supply"}
+]
