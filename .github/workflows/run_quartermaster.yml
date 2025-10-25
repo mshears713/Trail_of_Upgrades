@@ -25,6 +25,16 @@ jobs:
         run: |
           echo "No dependencies required for PRD1."
 
+      - name: Run database setup
+        run: |
+          echo "::group::Database setup"
+          python inventory_setup.py
+          echo "::endgroup::"
+        working-directory: quartermaster
+
       - name: Run Quartermaster
-        run: python quartermaster.py
+        run: |
+          echo "::group::Quartermaster operations"
+          python quartermaster.py
+          echo "::endgroup::"
         working-directory: quartermaster
