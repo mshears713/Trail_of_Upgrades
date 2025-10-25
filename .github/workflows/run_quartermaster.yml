@@ -16,32 +16,41 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Download previous wagon database
+        uses: actions/download-artifact@v4
+        with:
+          name: wagon-database
+          path: quartermaster
+        continue-on-error: true
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies (if any)
-        run: |
-          echo "No dependencies required for PRD1."
-
-      - name: Run database setup
+      - name: Database setup
         run: |
           echo "::group::Database setup"
           python inventory_setup.py
           echo "::endgroup::"
         working-directory: quartermaster
 
-      - name: Run Quartermaster
+      - name: Quartermaster operations
         run: |
           echo "::group::Quartermaster operations"
           python quartermaster.py
           echo "::endgroup::"
         working-directory: quartermaster
 
-      - name: Review Ledger
+      - name: Ledger review
         run: |
           echo "::group::Ledger review"
           python ledger_review.py
           echo "::endgroup::"
         working-directory: quartermaster
+
+      - name: Upload wagon database
+        uses: actions/upload-artifact@v4
+        with:
+          name: wagon-database
+          path: quartermaster/wagon.db
