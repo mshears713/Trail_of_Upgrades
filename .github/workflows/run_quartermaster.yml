@@ -15,13 +15,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Download previous wagon database
-        uses: actions/download-artifact@v4
         with:
-          name: wagon-database
-          path: quartermaster
-        continue-on-error: true
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -90,14 +86,17 @@ jobs:
           echo "::endgroup::"
         working-directory: quartermaster
 
-      - name: Upload wagon database
-        uses: actions/upload-artifact@v4
-        with:
-          name: wagon-database
-          path: quartermaster/wagon.db
-
-      - name: Upload readable report
-        uses: actions/upload-artifact@v4
-        with:
-          name: readable-report
-          path: quartermaster/report.md
+      - name: Commit updated records
+        run: |
+          echo "::group::Commit updated records"
+          git config user.name "Quartermaster Bot"
+          git config user.email "quartermaster@expedition.local"
+          git add quartermaster/wagon.db quartermaster/report.md || true
+          if git diff --cached --quiet; then
+            echo "Quartermaster: No changes to commit. The ledger remains steady."
+          else
+            git commit -m "Quartermaster: Updated wagon ledger and report"
+            git push
+            echo "Quartermaster: Records successfully committed to camp."
+          fi
+          echo "::endgroup::"
